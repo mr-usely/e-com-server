@@ -91,6 +91,49 @@ router.patch('/update/:id', getProduct, async (req, res) => {
 })
 
 
+// Updating single product info
+router.patch('/update/1/:id', getProduct, async (req, res) => {
+    try {
+        if(req.body.name != null) {
+            res.product.name = req.body.name
+        }
+
+        if(req.body.image != null){
+            res.product.image = req.body.image
+        }
+
+        if(req.body.shortDescription != null){
+            res.product.shortDescription = req.body.shortDescription
+        }
+
+        if(req.body.featureDescription != null){
+            res.product.featureDescription = req.body.featureDescription
+        }
+
+        if(req.body.price != null){
+            res.product.price = req.body.price
+        }
+
+        if(req.body.qty != null){
+            res.product.qty = req.body.qty
+        }
+
+        if(req.body.status != null){
+            res.product.status = req.body.status
+        }
+
+        if(req.body.category != null){
+            res.product.category = req.body.category
+        }
+    
+        const updatedProduct = await res.product.save()
+        res.status(201).json(updatedProduct)
+    } catch (err) {
+        res.status(400).json({ type: 'error', message: err.message })
+    }
+})
+
+
 // Deleting product
 router.delete('/delete/:id', getProduct, async (req, res) => {
     try {

@@ -81,8 +81,9 @@ router.patch('/update/:id', getProduct, async (req, res) => {
         const updatedProduct = await res.product.save()
         const product = await Products.find()
 
-        if(updatedProduct){
-            res.status(201).json(product)
+        if(updatedProduct != null){
+            console.log('product updated')
+            res.json(product)
         }
     } catch (err) {
         res.status(400).json({ type: 'error', message: err.message })

@@ -36,7 +36,7 @@ router.get('/all/products', async (req, res) => {
                     name: 1,
                     email: 1,
                     status: 1,
-                    product: 1,
+                    items: 1,
                     createdAt: 1
                 }
             }
@@ -54,14 +54,19 @@ router.post('/create', async (req, res) => {
         const user = await User.findById(req.body.userId)
 
         const transaction = new Transactions({
-            name: user.firstName +' '+user.lastName,
+            name: user.firstName + ' ' + user.lastName,
             email: user.email,
-            productOrdered: req.body.productId,
+            userId: user._id,
+            total: req.body.total,
+            items: req.body.listItems,
             status: req.body.status
         })
 
         const newTransactions = await transaction.save()
-        res.status(200).json(newTransactions)
+        if (newTransactions != null) {
+            
+            res.status(200).json({ type: 'success', message: 'Transaction deleted' })
+        }
     } catch (err) {
         res.status(500).json({ type: 'error', message: err.message })
     }
@@ -82,7 +87,7 @@ async function getTransaction(req, res, next) {
     let transaction
     try {
         transaction = await Transactions.findById(req.params.id)
-        if(transaction == null) {
+        if (transaction == null) {
             return res.status(404).json({ message: 'Cannot find product' })
         }
     } catch (err) {

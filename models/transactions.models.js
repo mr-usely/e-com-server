@@ -9,9 +9,16 @@ const transactModel = new mongoose.Schema({
         type: String,
         required: true
     },
-    productOrdered: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'Products'
+    userId: {
+        type: mongoose.Types.ObjectId,
+        ref: "Users",
+        required: true
     },
+    total: {
+        type: mongoose.Types.Decimal128,
+        required: true
+    },
+    items: [],
     status: {
         type: String
     }

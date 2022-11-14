@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 })
 
 // Getting all carts of a user
-router.get('/:id', async (req, res)  => {
+router.get('/:id', async (req, res) => {
     try {
 
         const cart = await Carts.find({
@@ -36,6 +36,8 @@ router.post('/add', async (req, res) => {
             product: product.name,
             price: product.price,
             image: product.image,
+            featureDescription: product.featureDescription,
+            qty: req.body.qty,
             productId: product._id,
             user: req.body.userId
         })
@@ -62,7 +64,7 @@ async function getCart(req, res, next) {
     let cart
     try {
         cart = await Carts.findById(req.params.id)
-        if(cart == null){
+        if (cart == null) {
             return res.status(404).json({ message: 'Cannot find product' })
         }
     } catch (err) {

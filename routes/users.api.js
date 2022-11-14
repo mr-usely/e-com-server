@@ -17,17 +17,40 @@ router.post('/create', async (req, res) => {
     try {
         const hashedPass = await bcrypt.hash(req.body.password, 10)
 
-        const auth = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: hashedPass
-        })
+        const checkEmail = await User.findOne({ email: req.body.email });
 
-        const newAuth = await auth.save()
-        res.status(201).json(newAuth)
+        if (checkEmail == null) {
+            const auth = new User({
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                phoneNumber: req.body.mobileNo,
+                password: hashedPass
+            })
+
+            const newAuth = await auth.save()
+            res.status(201).json(newAuth)
+        } else {
+            res.json({ type: 'existing', message: "User is already existing." });
+        }
+
     } catch (err) {
         res.status(500).json({ type: 'error', message: err.message })
+    }
+})
+
+
+//add gcash user
+router.patch('/gcash/:id', getUser, async (req, res) => {
+    try {
+        if (req.body.gcash != null) {
+            res.user.gcash = req.body.gcash
+        }
+
+        const addGcash = await res.user.save()
+        res.status(201).json({ type: "success", message: "GCash Account Added!" });
+    } catch (err) {
+        res.status(400).json({ type: 'error', message: err.message })
     }
 })
 
@@ -47,12 +70,12 @@ router.delete('/delete/:id', getUser, async (req, res) => {
 router.post('/login', async (req, res) => {
     const user = await User.findOne({ email: req.body.email })
 
-    if(user == null) {
+    if (user == null) {
         return res.status(400).json({ type: 'error', message: "No user found" })
     }
 
     try {
-        if(await bcrypt.compare(req.body.password, user.password)) {
+        if (await bcrypt.compare(req.body.password, user.password)) {
             res.status(201).json(user)
         } else {
             res.json({ type: 'error', message: 'Not Allowed' })
@@ -67,7 +90,7 @@ async function getUser(req, res, next) {
     let user
     try {
         user = await User.findById(req.params.id)
-        if(user == null){
+        if (user == null) {
             return res.status(404).json({ message: 'Cannot find product' })
         }
     } catch (err) {

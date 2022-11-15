@@ -15,13 +15,22 @@ const transactModel = new mongoose.Schema({
         required: true
     },
     total: {
-        type: mongoose.Types.Decimal128,
-        required: true
+        type: mongoose.Schema.Types.Decimal128,
+        required: true,
+        default: 0,
+        get: getCosts
     },
     items: [],
     status: {
         type: String
     }
-}, { timestamps: true, collection: 'transactions' })
+}, { timestamps: true, collection: 'transactions', toJSON: { getters: true } })
+
+function getCosts(value) {
+    if (typeof value !== 'undefined') {
+        return parseFloat(value.toString());
+    }
+    return value;
+};
 
 module.exports = mongoose.model('Transactions', transactModel)

@@ -23,7 +23,8 @@ const transactModel = new mongoose.Schema({
     items: [],
     status: {
         type: String
-    }
+    },
+    id: false
 }, { timestamps: true, collection: 'transactions', toJSON: { getters: true } })
 
 function getCosts(value) {

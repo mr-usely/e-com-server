@@ -24,6 +24,10 @@ const userModel = new mongoose.Schema({
         type: String,
         required: true
     },
+    status: {
+        type: String,
+        required: true
+    },
     totalAmountOrdered: {
         type: mongoose.Types.Decimal128
     }

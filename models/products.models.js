@@ -28,13 +28,15 @@ const productsModel = new mongoose.Schema({
         required: true,
     },
     status: {
-        type: String
+        type: String,
+        required: true
     },
     category: {
         type: String
     },
-    rating: {
-        type: mongoose.Types.Decimal128
+    stat: {
+        type: String,
+        required: true
     }
 }, { collection: 'products', timestamps: true })
 

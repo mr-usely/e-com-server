@@ -31,6 +31,7 @@ router.post('/create', async (req, res) => {
             price: req.body.price,
             qty: req.body.qty,
             status: req.body.status,
+            stat: req.body.stat,
             category: req.body.category
         })
 
@@ -45,43 +46,47 @@ router.post('/create', async (req, res) => {
 // Updating product info
 router.patch('/update/:id', getProduct, async (req, res) => {
     try {
-        if(req.body.name != null) {
+        if (req.body.name != null) {
             res.product.name = req.body.name
         }
 
-        if(req.body.image != null){
+        if (req.body.image != null) {
             res.product.image = req.body.image
         }
 
-        if(req.body.shortDescription != null){
+        if (req.body.shortDescription != null) {
             res.product.shortDescription = req.body.shortDescription
         }
 
-        if(req.body.featureDescription != null){
+        if (req.body.featureDescription != null) {
             res.product.featureDescription = req.body.featureDescription
         }
 
-        if(req.body.price != null){
+        if (req.body.price != null) {
             res.product.price = req.body.price
         }
 
-        if(req.body.qty != null){
+        if (req.body.qty != null) {
             res.product.qty = req.body.qty
         }
 
-        if(req.body.status != null){
+        if (req.body.status != null) {
             res.product.status = req.body.status
         }
 
-        if(req.body.category != null){
+        if (req.body.category != null) {
             res.product.category = req.body.category
         }
 
-    
+        if (req.body.stat != null) {
+            res.product.stat = req.body.stat
+        }
+
+
         const updatedProduct = await res.product.save()
         const product = await Products.find()
 
-        if(updatedProduct != null){
+        if (updatedProduct != null) {
             console.log('product updated')
             res.json(product)
         }
@@ -94,38 +99,42 @@ router.patch('/update/:id', getProduct, async (req, res) => {
 // Updating single product info
 router.patch('/update/1/:id', getProduct, async (req, res) => {
     try {
-        if(req.body.name != null) {
+        if (req.body.name != null) {
             res.product.name = req.body.name
         }
 
-        if(req.body.image != null){
+        if (req.body.image != null) {
             res.product.image = req.body.image
         }
 
-        if(req.body.shortDescription != null){
+        if (req.body.shortDescription != null) {
             res.product.shortDescription = req.body.shortDescription
         }
 
-        if(req.body.featureDescription != null){
+        if (req.body.featureDescription != null) {
             res.product.featureDescription = req.body.featureDescription
         }
 
-        if(req.body.price != null){
+        if (req.body.price != null) {
             res.product.price = req.body.price
         }
 
-        if(req.body.qty != null){
+        if (req.body.qty != null) {
             res.product.qty = req.body.qty
         }
 
-        if(req.body.status != null){
+        if (req.body.status != null) {
             res.product.status = req.body.status
         }
 
-        if(req.body.category != null){
+        if (req.body.stat != null) {
+            res.product.stat = req.body.stat
+        }
+
+        if (req.body.category != null) {
             res.product.category = req.body.category
         }
-    
+
         const updatedProduct = await res.product.save()
         res.status(201).json(updatedProduct)
     } catch (err) {
@@ -150,7 +159,7 @@ async function getProduct(req, res, next) {
     let product
     try {
         product = await Products.findById(req.params.id)
-        if(product == null){
+        if (product == null) {
             return res.status(404).json({ message: 'Cannot find product' })
         }
     } catch (err) {

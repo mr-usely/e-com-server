@@ -25,7 +25,8 @@ router.post('/create', async (req, res) => {
                 lastName: req.body.lastName,
                 email: req.body.email,
                 phoneNumber: req.body.mobileNo,
-                password: hashedPass
+                password: hashedPass,
+                status: req.body.status
             })
 
             const newAuth = await auth.save()
@@ -39,6 +40,20 @@ router.post('/create', async (req, res) => {
     }
 })
 
+
+//
+router.patch('/block/:id', getUser, async (req, res) => {
+    try {
+        if (req.body.status != null) {
+            res.user.status = req.body.status
+        }
+
+        const update = await res.user.save()
+        res.status(201).json({ type: "success", message: "YUser Blocked!" });
+    } catch (err) {
+        res.status(400).json({ type: 'error', message: err.message })
+    }
+})
 
 //add gcash user
 router.patch('/gcash/:id', getUser, async (req, res) => {

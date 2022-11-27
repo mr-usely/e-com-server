@@ -26,7 +26,7 @@ router.post('/create', async (req, res) => {
                 email: req.body.email,
                 phoneNumber: req.body.mobileNo,
                 password: hashedPass,
-                status: req.body.status
+                status: "Active"
             })
 
             const newAuth = await auth.save()

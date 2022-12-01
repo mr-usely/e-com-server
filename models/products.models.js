@@ -20,8 +20,9 @@ const productsModel = new mongoose.Schema({
         maxLength: 300
     },
     price: {
-        type: String,
+        type: mongoose.Types.Decimal128,
         required: true,
+        get: getPrice
     },
     qty: {
         type: Number,
@@ -38,6 +39,13 @@ const productsModel = new mongoose.Schema({
         type: String,
         required: true
     }
-}, { collection: 'products', timestamps: true })
+}, { collection: 'products', timestamps: true, toJSON: { getters: true } })
+
+function getPrice(value) {
+    if (typeof value !== 'undefined') {
+        return parseFloat(value.toString());
+    }
+    return value;
+};
 
 module.exports = mongoose.model('Products', productsModel)

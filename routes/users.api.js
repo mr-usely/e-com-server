@@ -49,7 +49,7 @@ router.patch('/block/:id', getUser, async (req, res) => {
         }
 
         const update = await res.user.save()
-        res.status(201).json({ type: "success", message: "YUser Blocked!" });
+        res.status(201).json({ type: "success", message: "User Blocked!" });
     } catch (err) {
         res.status(400).json({ type: 'error', message: err.message })
     }

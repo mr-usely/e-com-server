@@ -42,4 +42,8 @@ app.use('/cart', addToCart)
 const wishlist = require('./routes/wishlist.api')
 app.use('/wishlist', wishlist)
 
+// Loans
+const loans = require('./routes/loans.api')
+app.use('/loan', loans)
+
 app.listen(3030, () => console.log('Server Started'))

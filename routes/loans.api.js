@@ -18,17 +18,33 @@ router.post('/create', async (req, res) => {
         const loan = new Loans({
             name: req.body.name,
             age: req.body.age,
-            address: req.body.age,
+            address: req.body.address,
             area: req.body.area,
             occupation: req.body.occupation,
             monthly: req.body.monthly,
             borrowOption: req.body.borrowOption,
             borrow: req.body.borrow,
-            status: 'Pending'
+            status: 'Pending',
+            user: req.body.user
         })
 
         const newLoan = await loan.save()
         res.status(201).json(newLoan)
+    } catch (err) {
+        res.status(500).json({ type: 'error', message: err.message })
+    }
+})
+
+
+// Getting all loans of a user
+router.get('/:id', async (req, res) => {
+    try {
+
+        const loan = await Loans.find({
+            user: req.params.id
+        })
+
+        res.send(loan)
     } catch (err) {
         res.status(500).json({ type: 'error', message: err.message })
     }

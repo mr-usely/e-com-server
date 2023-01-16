@@ -35,6 +35,9 @@ const loansModel = new mongoose.Schema({
     },
     status: {
         type: String
+    },
+    user: {
+        type: mongoose.Types.ObjectId, ref: 'Users'
     }
 }, { timestamps: true, collection: 'loans' })
 

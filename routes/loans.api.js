@@ -57,9 +57,11 @@ router.patch('/approval/:id', getLoan, async (req, res) => {
         if (req.body.status != null) {
             res.loan.status = req.body.status
         }
+        const loadLoans = await Loans.find()
 
         const approveLoan = await res.loan.save()
-        res.status(201).json(approveLoan)
+        // res.status(201).json({ type: "success", message: approveLoan.status });
+        res.json(loadLoans)
     } catch (err) {
         res.status(400).json({ type: 'error', message: err.message })
     }

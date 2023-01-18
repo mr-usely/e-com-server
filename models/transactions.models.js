@@ -25,7 +25,17 @@ const transactModel = new mongoose.Schema({
         type: String
     },
     id: false
-}, { timestamps: true, collection: 'transactions', toJSON: { getters: true } })
+}, {
+    timestamps: true, collection: 'transactions', toJSON: {
+        getters: true, transform: (doc, ret) => {
+            if (ret.total) {
+                ret.total = ret.total.toString();
+            }
+            delete ret.__v;
+            return ret;
+        }
+    }
+})
 
 function getCosts(value) {
     if (typeof value !== 'undefined') {

@@ -79,11 +79,11 @@ router.get('/day', async (req, res) => {
             if (transaction[i].result[0] == undefined) { continue; }
             // summaryData.fertilizer += transaction.
             if (transaction[i].result[0].category == "fertilizer") {
-                summaryData.fertilizer = + transaction[i].result[0].price
+                summaryData.fertilizer = + transaction[i].result[0].subTotal
             } else if (transaction[i].result[0].category == "seedlings") {
-                summaryData.seedlings = + transaction[i].result[0].price
+                summaryData.seedlings = + transaction[i].result[0].subTotal
             } else if (transaction[i].result[0].category == "insecticide") {
-                summaryData.insecticide = + transaction[i].result[0].price
+                summaryData.insecticide = + transaction[i].result[0].subTotal
             }
         }
 
